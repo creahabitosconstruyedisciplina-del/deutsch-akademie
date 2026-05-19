@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Akademie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0e;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --red: #c0392b;
+    --green: #27ae60;
+    --surface: #faf7f2;
+    --border: #ddd5c0;
+    --muted: #8a7f6e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--gold); }
+  .level-badge {
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    display: none;
+  }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ─── HERO ─── */
+  #screen-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+    text-align: center;
+    padding: 40px 20px;
+  }
+  #screen-home.active { display: flex; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero-title em { color: var(--gold); font-style: normal; }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    border: 2px solid var(--ink);
+  }
+  .btn-primary:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  /* ─── TEST ─── */
+  #screen-test { padding: 40px 20px; max-width: 700px; margin: 0 auto; }
+  #screen-test.active { display: block; }
+  .test-header {
+    margin-bottom: 32px;
+  }
+  .test-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .progress-bar-wrap {
+    background: var(--border);
+    height: 6px;
+    border-radius: 3px;
+    margin-top: 16px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    background: var(--gold);
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+  .question-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .question-num {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .option-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .option-btn:hover { border-color: var(--gold); background: var(--gold-light); }
+  .option-btn.correct { border-color: var(--green); background: #e8f8ee; color: var(--green); font-weight: 600; }
+  .option-btn.wrong { border-color: var(--red); background: #fdecea; color: var(--red); }
+  .option-btn:disabled { cursor: default; }
+
+  /* ─── RESULT ─── */
+  #screen-result { padding: 60px 20px; max-width: 600px; margin: 0 auto; text-align: center; }
+  #screen-result.active { display: block; }
+  .result-level {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .result-label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .result-desc {
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .result-score {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  /* ─── LESSON ─── */
+  #screen-lesson { padding: 24px 16px; max-width: 800px; margin: 0 auto; }
+  #screen-lesson.active { display: block; }
+  .lesson-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .lesson-nav h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--border);
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: max-content;
+    background: transparent;
+    border: none;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: white; color: var(--ink); font-weight: 600; box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+
+  .section-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: none;
+  }
+  .section-card.visible { display: block; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    background: var(--ink);
+    color: var(--gold);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  /* Reading */
+  .reading-text {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #2c2820;
+  }
+  .reading-text p { margin-bottom: 14px; }
+
+  /* Audio */
+  .audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .play-btn {
+    width: 44px; height: 44px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .play-btn:hover { background: var(--gold); color: var(--ink); }
+  .audio-label { font-size: 0.85rem; color: var(--muted); }
+  .audio-speaking { font-size: 0.8rem; color: var(--green); font-weight: 600; display: none; }
+
+  /* Vocabulary */
+  .vocab-table { width: 100%; border-collapse: collapse; }
+  .vocab-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .vocab-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    vertical-align: top;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vocab-de { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
+  .vocab-article { color: var(--gold); font-weight: 600; font-size: 0.8em; }
+  .vocab-es { color: var(--muted); }
+  .vocab-example { font-size: 0.82rem; color: #999; font-style: italic; margin-top: 3px; }
+  .speak-word {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .speak-word:hover { border-color: var(--gold); color: var(--ink); }
+
+  /* Grammar */
+  .grammar-rule {
+    background: var(--surface);
+    border-left: 4px solid var(--gold);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 16px;
+  }
+  .grammar-rule h4 { font-weight: 600; margin-bottom: 8px; }
+  .grammar-rule p { font-size: 0.95rem; line-height: 1.7; color: var(--ink); }
+  .grammar-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
+  .grammar-table th { background: var(--ink); color: var(--gold); padding: 8px 12px; text-align: left; font-size: 0.8rem; }
+  .grammar-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .grammar-table tr:nth-child(even) td { background: var(--surface); }
+  .highlight { background: var(--gold-light); padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+
+  /* Exercises */
+  .exercise-item {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .exercise-item.correct-ex { border-color: var(--green); background: #f0fbf4; }
+  .exercise-item.wrong-ex { border-color: var(--red); background: #fef5f5; }
+  .exercise-question { font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .exercise-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .exercise-input:focus { border-color: var(--gold); }
+  .exercise-feedback {
+    font-size: 0.85rem;
+    margin-top: 8px;
+    font-weight: 500;
+    display: none;
+  }
+  .exercise-feedback.show { display: block; }
+  .exercise-feedback.ok { color: var(--green); }
+  .exercise-feedback.fail { color: var(--red); }
+  .multiple-choice-options { display: flex; flex-direction: column; gap: 8px; }
+  .mc-option {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    text-align: left;
+    transition: all 0.2s;
+    color: var(--ink);
+  }
+  .mc-option:hover { border-color: var(--gold); }
+  .mc-option.sel-correct { border-color: var(--green); background: #e8f8ee; color: var(--green); font-weight: 600; }
+  .mc-option.sel-wrong { border-color: var(--red); background: #fdecea; color: var(--red); }
+  .mc-option.show-correct { border-color: var(--green); background: #e8f8ee; }
+  .mc-option:disabled { cursor: default; }
+
+  .check-btn {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .check-btn:hover { background: var(--gold); color: var(--ink); }
+
+  /* Loading */
+  .loading-wrap {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-wrap p { color: var(--muted); font-size: 0.95rem; }
+
+  /* Score summary */
+  .score-summary {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .score-summary .s-title { font-size: 0.85rem; opacity: 0.7; margin-bottom: 4px; }
+  .score-summary .s-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); }
+  .next-lesson-btn {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .next-lesson-btn:hover { opacity: 0.85; }
+
+  /* Day selector */
+  .day-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .day-selector label { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .day-select {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--ink);
+    outline: none;
+  }
+
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .lesson-nav { flex-direction: column; align-items: flex-start; }
+    .score-summary { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Deutsch <span>Akademie</span></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="level-badge" id="levelBadge">A1</div>
+    <button onclick="resetApp()" title="Reiniciar progreso" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(245,240,232,0.5);border-radius:4px;padding:5px 10px;cursor:pointer;font-size:0.75rem;font-family:inherit;transition:all 0.2s" onmouseover="this.style.color='#c9a84c';this.style.borderColor='#c9a84c'" onmouseout="this.style.color='rgba(245,240,232,0.5)';this.style.borderColor='rgba(255,255,255,0.2)'">↺ reiniciar</button>
+  </div>
+</header>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="hero-title">Aprende alemán<br>cada <em>día</em></div>
+  <p class="hero-sub">Descubre tu nivel actual y recibe lecciones diarias personalizadas con texto, vocabulario, gramática, ejercicios y audio.</p>
+  <button class="btn-primary" onclick="startTest()">Hacer el test de nivel →</button>
+</div>
+
+<!-- TEST -->
+<div id="screen-test" class="screen">
+  <div class="test-header">
+    <h2>Test de nivel</h2>
+    <p style="color:var(--muted);font-size:0.9rem">Selecciona la respuesta correcta. Sin prisa.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+  <div id="questionContainer"></div>
+</div>
+
+<!-- RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-level" id="resultLevel">A1</div>
+  <div class="result-label" id="resultLabel">Principiante</div>
+  <p class="result-desc" id="resultDesc"></p>
+  <p class="result-score" id="resultScore"></p>
+  <button class="btn-primary" onclick="goToLesson()">Ver mi primera lección →</button>
+</div>
+
+<!-- LESSON -->
+<div id="screen-lesson" class="screen">
+  <div class="lesson-nav">
+    <div>
+      <h2 id="lessonTitle">Lección del día</h2>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:4px" id="lessonSubtitle"></p>
+    </div>
+    <div class="day-selector">
+      <label>Día:</label>
+      <select class="day-select" id="daySelect" onchange="loadLesson(this.value)">
+        <option value="1">1</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('lectura')">📖 Lectura</button>
+    <button class="tab-btn" onclick="showTab('vocabulario')">📚 Vocabulario</button>
+    <button class="tab-btn" onclick="showTab('gramatica')">📐 Gramática</button>
+    <button class="tab-btn" onclick="showTab('ejercicios')">✏️ Ejercicios</button>
+  </div>
+
+  <div id="lessonContent">
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <p>Generando tu lección personalizada…</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const questions = [
+  { q: "¿Cómo se dice 'hola' en alemán?", opts: ["Hallo","Tschüss","Danke","Bitte"], ans: 0, level: "A1" },
+  { q: "Completa: '___ bin ein Student.'", opts: ["Ich","Du","Er","Wir"], ans: 0, level: "A1" },
+  { q: "¿Qué significa 'Wasser'?", opts: ["Fuego","Agua","Tierra","Aire"], ans: 1, level: "A1" },
+  { q: "Elige la forma correcta: 'Ich ___ jeden Tag.'", opts: ["arbeite","arbeitet","arbeiten","arbeitest"], ans: 0, level: "A2" },
+  { q: "¿Cuál es el plural de 'das Kind'?", opts: ["die Kinder","die Kinds","die Kindern","der Kinder"], ans: 0, level: "A2" },
+  { q: "Completa: 'Ich habe ___ Hund.' (kein/keinen/keine)", opts: ["keinen","keine","kein","keinem"], ans: 0, level: "A2" },
+  { q: "Forma el Perfekt: 'Er ___ gestern ins Kino ___.'", opts: ["hat … gegangen","ist … gegangen","hat … gefahren","ist … gegessen"], ans: 1, level: "B1" },
+  { q: "Elige la conjunción correcta: 'Er kommt nicht, ___ er krank ist.'", opts: ["weil","damit","obwohl","trotzdem"], ans: 0, level: "B1" },
+  { q: "¿Qué expresa 'obwohl'?", opts: ["causa","finalidad","concesión","consecuencia"], ans: 2, level: "B1" },
+  { q: "Pasiva: 'Das Buch ___ von Schiller ___.'", opts: ["wurde … geschrieben","hat … geschrieben","ist … schreibt","wird … schreiben"], ans: 0, level: "B2" },
+  { q: "Konjunktiv II de 'haben': 'Ich ___ gern mehr Zeit.'", opts: ["hätte","habe","hatte","haben"], ans: 0, level: "B2" },
+  { q: "Regens + Genitiv: 'Die Lösung ___ Problems.'", opts: ["des","dem","den","die"], ans: 0, level: "B2" },
+];
+
+// ═══════════════════════════════════════════════
+//  STORAGE HELPERS
+// ═══════════════════════════════════════════════
+const STORAGE_KEY = 'deutschAkademie_v1';
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      userLevel,
+      dayCount,
+      lastVisit: new Date().toDateString(),
+      lessonCache
+    }));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function clearState() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+// ═══════════════════════════════════════════════
+//  STATE VARS
+// ═══════════════════════════════════════════════
+let currentQ = 0;
+let score = 0;
+let userLevel = "A1";
+let dayCount = 1;
+let lessonCache = {};
+let activeTab = "lectura";
+
+// ═══════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startTest() { show('screen-test'); renderQuestion(); }
+
+function goToLesson() {
+  show('screen-lesson');
+  document.getElementById('levelBadge').textContent = userLevel;
+  document.getElementById('levelBadge').style.display = 'inline-block';
+  saveState();
+  buildDaySelector();
+  loadLesson(1);
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f0f0e;color:#f5f0e8;padding:12px 24px;border-radius:6px;font-size:0.88rem;font-weight:500;z-index:9999;border-bottom:3px solid #c9a84c;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;animation:fadeUp 0.3s ease';
+  t.textContent = msg;
+  if (!document.getElementById('toastStyle')) {
+    const s = document.createElement('style');
+    s.id = 'toastStyle';
+    s.textContent = '@keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+    document.head.appendChild(s);
+  }
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function resetApp() {
+  if (!confirm('¿Seguro que quieres borrar todo tu progreso y empezar de cero?')) return;
+  clearState();
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════
+//  TEST
+// ═══════════════════════════════════════════════
+function renderQuestion() {
+  const total = questions.length;
+  const pct = Math.round((currentQ / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const q = questions[currentQ];
+  const container = document.getElementById('questionContainer');
+  container.innerHTML = `
+    <div class="question-card">
+      <div class="question-num">Pregunta ${currentQ+1} de ${total} · Nivel ${q.level}</div>
+      <div class="question-text">${q.q}</div>
+      <div class="options-grid" id="opts">
+        ${q.opts.map((o,i) => `<button class="option-btn" onclick="selectAnswer(${i})">${o}</button>`).join('')}
+      </div>
+    </div>`;
+}
+
+function selectAnswer(idx) {
+  const q = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[q.ans].classList.add('correct');
+  if (idx !== q.ans) btns[idx].classList.add('wrong');
+  else score++;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) renderQuestion();
+    else showResult();
+  }, 900);
+}
+
+function showResult() {
+  const pct = score / questions.length;
+  let level, label, desc;
+  if (pct < 0.3) { level="A1"; label="Principiante"; desc="Estás empezando con el alemán. Aprenderás el alfabeto, saludos, números y frases básicas del día a día."; }
+  else if (pct < 0.5) { level="A2"; label="Básico"; desc="Manejas las estructuras más simples. Consolidaremos el presente, vocabulario cotidiano y frases útiles de viaje."; }
+  else if (pct < 0.7) { level="B1"; label="Intermedio"; desc="Ya te defiendes. Trabajaremos el Perfekt, cláusulas subordinadas y conversación fluida sobre temas cotidianos."; }
+  else { level="B2"; label="Intermedio alto"; desc="Tienes una base sólida. Profundizaremos en la pasiva, el Konjunktiv y textos auténticos más complejos."; }
+
+  userLevel = level;
+  document.getElementById('resultLevel').textContent = level;
+  document.getElementById('resultLabel').textContent = label;
+  document.getElementById('resultDesc').textContent = desc;
+  document.getElementById('resultScore').textContent = `Respuestas correctas: ${score} / ${questions.length}`;
+  show('screen-result');
+}
+
+// ═══════════════════════════════════════════════
+//  LESSON
+// ═══════════════════════════════════════════════
+function buildDaySelector() {
+  const sel = document.getElementById('daySelect');
+  sel.innerHTML = '';
+  for (let d = 1; d <= dayCount; d++) {
+    const opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    sel.appendChild(opt);
+  }
+  sel.value = dayCount;
+}
+
+async function loadLesson(day) {
+  day = parseInt(day);
+  document.getElementById('lessonTitle').textContent = `Lección — Día ${day}`;
+  document.getElementById('lessonSubtitle').textContent = `Nivel ${userLevel}`;
+
+  if (lessonCache[day]) { renderLesson(lessonCache[day]); return; }
+
+  document.getElementById('lessonContent').innerHTML = `
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <p>Generando tu lección del día ${day}…</p>
+    </div>`;
+
+  const prompt = buildPrompt(day);
+
+  // Detect if running inside claude.ai iframe (API calls blocked by CORS)
+  let isInsideIframe = false;
+  try { isInsideIframe = window.self !== window.top; } catch(e) { isInsideIframe = true; }
+  if (isInsideIframe) {
+    document.getElementById('lessonContent').innerHTML = `
+      <div style="padding:32px 24px;background:white;border:1.5px solid var(--border);border-radius:10px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:12px">⚠️</div>
+        <p style="font-weight:600;margin-bottom:8px">Abre el archivo en tu navegador directamente</p>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.6">Dentro del chat de Claude las llamadas a la API están bloqueadas.<br>
+        Descarga el archivo HTML y ábrelo desde tu disco (o súbelo a GitHub Pages) para que las lecciones funcionen.</p>
+      </div>`;
+    return;
+  }
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2500,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await res.json();
+
+    // API-level error (wrong key, quota, etc.)
+    if (data.error) throw new Error('API: ' + data.error.message);
+
+    const text = data.content.map(c => c.text || '').join('');
+
+    // Extract JSON robustly: find first { ... last }
+    const first = text.indexOf('{');
+    const last  = text.lastIndexOf('}');
+    if (first === -1 || last === -1) throw new Error('No JSON in response: ' + text.slice(0,200));
+    const clean = text.slice(first, last + 1);
+
+    const lesson = JSON.parse(clean);
+    lessonCache[day] = lesson;
+    saveState();
+    renderLesson(lesson);
+  } catch(e) {
+    console.error('loadLesson error:', e);
+    document.getElementById('lessonContent').innerHTML = `
+      <div style="padding:40px;text-align:center;color:var(--red)">
+        <strong>Error al generar la lección</strong><br>
+        <code style="font-size:0.75rem;display:block;margin:12px 0;color:#999;word-break:break-all">${e.message}</code>
+        <button class="btn-primary" style="margin-top:8px" onclick="loadLesson(${day})">Reintentar</button>
+      </div>`;
+  }
+}
+
+function buildPrompt(day) {
+  return `Eres un profesor experto de alemán. Genera una lección completa del DÍA ${day} para un estudiante de nivel ${userLevel}.
+
+Responde ÚNICAMENTE con un objeto JSON válido (sin markdown, sin explicaciones, solo el JSON).
+
+Estructura exacta:
+{
+  "tema": "título del tema de hoy (ej: Los saludos formales)",
+  "lectura": {
+    "titulo": "título del texto",
+    "texto": "texto en alemán de 80-120 palabras apropiado para el nivel, con vocabulario del tema",
+    "traduccion": "traducción al español del texto"
+  },
+  "vocabulario": [
+    { "de": "palabra", "articulo": "der/die/das (si aplica, si no '')", "es": "traducción", "ejemplo": "frase ejemplo en alemán" }
+  ],
+  "gramatica": {
+    "titulo": "regla gramatical del día",
+    "explicacion": "explicación clara en español (3-4 frases)",
+    "tabla": [
+      { "col1": "header1", "col2": "header2" },
+      { "col1": "dato", "col2": "dato" }
+    ],
+    "nota": "tip importante o excepción"
+  },
+  "ejercicios": [
+    { "tipo": "rellenar", "pregunta": "frase con ___ para rellenar", "respuesta": "respuesta correcta", "pista": "pista opcional" },
+    { "tipo": "multiple", "pregunta": "pregunta", "opciones": ["a","b","c","d"], "respuesta": 0 },
+    { "tipo": "rellenar", "pregunta": "frase con ___", "respuesta": "respuesta", "pista": "pista" },
+    { "tipo": "multiple", "pregunta": "pregunta", "opciones": ["a","b","c","d"], "respuesta": 1 },
+    { "tipo": "rellenar", "pregunta": "frase con ___", "respuesta": "respuesta", "pista": "pista" }
+  ]
+}
+
+El vocabulario debe tener entre 8 y 10 palabras. Los ejercicios deben estar directamente relacionados con el tema y la gramática del día. El nivel es ${userLevel}.`;
+}
+
+function renderLesson(lesson) {
+  activeTab = "lectura";
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+
+  const html = `
+    <!-- LECTURA -->
+    <div class="section-card visible" id="tab-lectura">
+      <div class="section-title"><div class="icon">📖</div>${lesson.lectura.titulo}</div>
+      <div class="reading-text">${lesson.lectura.texto.split('\n').map(p=>p.trim() ? `<p>${p}</p>` : '').join('')}</div>
+      <div class="audio-controls">
+        <button class="play-btn" onclick="speakText(\`${esc(lesson.lectura.texto)}\`, this)" title="Escuchar">▶</button>
+        <div>
+          <div class="audio-label">Escucha el texto en alemán</div>
+          <div class="audio-speaking" id="speaking-main">🔊 Reproduciendo…</div>
+        </div>
+      </div>
+      <details style="margin-top:20px">
+        <summary style="cursor:pointer;font-size:0.9rem;color:var(--muted);font-weight:500">Ver traducción al español</summary>
+        <p style="margin-top:12px;font-size:0.9rem;color:var(--muted);line-height:1.7;font-style:italic">${lesson.lectura.traduccion}</p>
+      </details>
+    </div>
+
+    <!-- VOCABULARIO -->
+    <div class="section-card" id="tab-vocabulario">
+      <div class="section-title"><div class="icon">📚</div>Vocabulario del día</div>
+      <table class="vocab-table">
+        <thead><tr><th>Alemán</th><th>Español</th><th>Ejemplo</th><th></th></tr></thead>
+        <tbody>
+          ${lesson.vocabulario.map(v => `
+          <tr>
+            <td class="vocab-de">${v.articulo ? `<span class="vocab-article">${v.articulo}</span> ` : ''}${v.de}</td>
+            <td class="vocab-es">${v.es}</td>
+            <td><span class="vocab-example">${v.ejemplo}</span></td>
+            <td><button class="speak-word" onclick="speakWord('${esc(v.de)}')">🔊</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GRAMÁTICA -->
+    <div class="section-card" id="tab-gramatica">
+      <div class="section-title"><div class="icon">📐</div>${lesson.gramatica.titulo}</div>
+      <div class="grammar-rule">
+        <p>${lesson.gramatica.explicacion}</p>
+      </div>
+      ${lesson.gramatica.tabla && lesson.gramatica.tabla.length > 1 ? `
+      <table class="grammar-table">
+        <thead><tr>${Object.keys(lesson.gramatica.tabla[0]).map(k=>`<th>${lesson.gramatica.tabla[0][k]}</th>`).join('')}</tr></thead>
+        <tbody>${lesson.gramatica.tabla.slice(1).map(row=>`<tr>${Object.values(row).map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table>` : ''}
+      ${lesson.gramatica.nota ? `<div style="margin-top:16px;padding:12px 16px;background:#fff8e7;border-radius:6px;font-size:0.88rem;color:#7a5c00;border:1px solid #e8d5a3">💡 <strong>Nota:</strong> ${lesson.gramatica.nota}</div>` : ''}
+    </div>
+
+    <!-- EJERCICIOS -->
+    <div class="section-card" id="tab-ejercicios">
+      <div class="section-title"><div class="icon">✏️</div>Ejercicios</div>
+      <div id="exercises-wrap">
+        ${lesson.ejercicios.map((ex,i) => renderExercise(ex,i)).join('')}
+      </div>
+      <div class="score-summary" id="scoreSummary" style="display:none">
+        <div><div class="s-title">Puntuación</div><div class="s-val" id="exScore">0/0</div></div>
+        <button class="next-lesson-btn" onclick="addNewDay()">+ Nueva lección →</button>
+      </div>
+    </div>`;
+
+  document.getElementById('lessonContent').innerHTML = html;
+}
+
+function esc(s) { return (s||'').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+
+function renderExercise(ex, i) {
+  if (ex.tipo === 'rellenar') {
+    return `<div class="exercise-item" id="ex-${i}">
+      <div class="exercise-question">${i+1}. ${ex.pregunta} ${ex.pista ? `<span style="font-size:0.8rem;color:var(--muted)">(${ex.pista})</span>` : ''}</div>
+      <input class="exercise-input" id="inp-${i}" placeholder="Tu respuesta…" />
+      <button class="check-btn" onclick="checkFill(${i},'${esc(ex.respuesta)}')">Comprobar</button>
+      <div class="exercise-feedback" id="fb-${i}"></div>
+    </div>`;
+  } else {
+    return `<div class="exercise-item" id="ex-${i}">
+      <div class="exercise-question">${i+1}. ${ex.pregunta}</div>
+      <div class="multiple-choice-options">
+        ${ex.opciones.map((o,j)=>`<button class="mc-option" id="mc-${i}-${j}" onclick="checkMC(${i},${j},${ex.respuesta})">${o}</button>`).join('')}
+      </div>
+      <div class="exercise-feedback" id="fb-${i}"></div>
+    </div>`;
+  }
+}
+
+let exResults = {};
+function checkFill(i, answer) {
+  const inp = document.getElementById(`inp-${i}`);
+  const fb = document.getElementById(`fb-${i}`);
+  const card = document.getElementById(`ex-${i}`);
+  const val = inp.value.trim().toLowerCase();
+  const correct = answer.trim().toLowerCase();
+  const ok = val === correct;
+  exResults[i] = ok;
+  card.classList.toggle('correct-ex', ok);
+  card.classList.toggle('wrong-ex', !ok);
+  fb.textContent = ok ? `✓ ¡Correcto!` : `✗ La respuesta correcta era: "${answer}"`;
+  fb.className = `exercise-feedback show ${ok ? 'ok' : 'fail'}`;
+  inp.disabled = true;
+  document.querySelector(`#ex-${i} .check-btn`).disabled = true;
+  checkAllDone();
+}
+
+function checkMC(i, chosen, correct) {
+  const fb = document.getElementById(`fb-${i}`);
+  const card = document.getElementById(`ex-${i}`);
+  for (let j = 0; j < 4; j++) {
+    const btn = document.getElementById(`mc-${i}-${j}`);
+    if (!btn) continue;
+    btn.disabled = true;
+    if (j === correct) btn.classList.add('show-correct');
+    if (j === chosen && chosen !== correct) btn.classList.add('sel-wrong');
+    if (j === chosen && chosen === correct) btn.classList.add('sel-correct');
+  }
+  const ok = chosen === correct;
+  exResults[i] = ok;
+  card.classList.toggle('correct-ex', ok);
+  card.classList.toggle('wrong-ex', !ok);
+  fb.textContent = ok ? '✓ ¡Correcto!' : '✗ Respuesta incorrecta.';
+  fb.className = `exercise-feedback show ${ok ? 'ok' : 'fail'}`;
+  checkAllDone();
+}
+
+function checkAllDone() {
+  const total = document.querySelectorAll('[id^="ex-"]').length;
+  const done = Object.keys(exResults).length;
+  if (done >= total) {
+    const correct = Object.values(exResults).filter(Boolean).length;
+    document.getElementById('exScore').textContent = `${correct}/${total}`;
+    document.getElementById('scoreSummary').style.display = 'flex';
+  }
+}
+
+function addNewDay() {
+  exResults = {};
+  dayCount++;
+  saveState();
+  buildDaySelector();
+  document.getElementById('daySelect').value = dayCount;
+  loadLesson(dayCount);
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════
+function showTab(tab) {
+  activeTab = tab;
+  const tabs = ['lectura','vocabulario','gramatica','ejercicios'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', tabs[i] === tab));
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('visible'));
+  const el = document.getElementById('tab-' + tab);
+  if (el) el.classList.add('visible');
+}
+
+// ═══════════════════════════════════════════════
+//  AUDIO (Web Speech API)
+// ═══════════════════════════════════════════════
+function speakText(text, btn) {
+  if (!window.speechSynthesis) { alert('Tu navegador no soporta síntesis de voz.'); return; }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'de-DE';
+  utter.rate = 0.85;
+  const spkEl = document.getElementById('speaking-main');
+  utter.onstart = () => { if(spkEl) spkEl.style.display='block'; btn.textContent='■'; };
+  utter.onend = () => { if(spkEl) spkEl.style.display='none'; btn.textContent='▶'; };
+  window.speechSynthesis.speak(utter);
+}
+
+function speakWord(word) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = 'de-DE';
+  utter.rate = 0.75;
+  window.speechSynthesis.speak(utter);
+}
+
+// ═══════════════════════════════════════════════
+//  INIT — restore session (runs after all functions defined)
+// ═══════════════════════════════════════════════
+(function init() {
+  const saved = loadState();
+  if (!saved) return; // new user → show home normally
+
+  userLevel   = saved.userLevel   || "A1";
+  dayCount    = saved.dayCount    || 1;
+  lessonCache = saved.lessonCache || {};
+
+  // New calendar day → unlock next lesson
+  const today = new Date().toDateString();
+  if (saved.lastVisit && saved.lastVisit !== today) {
+    dayCount++;
+    saveState();
+  }
+
+  // Skip home & test → go straight to lessons
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-lesson').classList.add('active');
+  document.getElementById('levelBadge').textContent = userLevel;
+  document.getElementById('levelBadge').style.display = 'inline-block';
+  buildDaySelector();
+  loadLesson(dayCount);
+  showToast(`¡Bienvenido de nuevo! Nivel ${userLevel} · Día ${dayCount}`);
+})();
+</script>
+</body>
+</html>
